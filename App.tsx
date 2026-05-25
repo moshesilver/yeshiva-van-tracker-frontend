@@ -33,6 +33,12 @@ export default function App() {
 	const [drivers, setDrivers] = useState<DriverMetrics[]>([]);
 	const [unassignedExpenses, setUnassignedExpenses] = useState([]);
 
+	// Login States
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [passwordInput, setPasswordInput] = useState('');
+	const [loginError, setLoginError] = useState('');
+	const [loginLoading, setLoginLoading] = useState(false);
+
 	// Trip States
 	const [driverName, setDriverName] = useState('');
 	const [tripDateTime, setTripDateTime] = useState(getCurrentDateTimeLocal());
@@ -164,6 +170,26 @@ export default function App() {
 		}
 	};
 
+	const handleLoginSubmit = async () => {
+		if (!passwordInput.trim()) return;
+		setLoginLoading(true);
+		setLoginError('');
+		try {
+			const res = await api.login(passwordInput);
+			if (res.success) {
+				setIsAuthenticated(true);
+				// Kick off the data loading once inside
+				refreshDashboardData();
+			} else {
+				setLoginError(res.message || 'Incorrect password.');
+			}
+		} catch (err) {
+			setLoginError('Could not connect to authentication server.');
+		} finally {
+			setLoginLoading(false);
+		}
+	};
+
 	const formatDateTime = (dateString: string) => {
 		const d = new Date(dateString);
 		return (
@@ -177,10 +203,50 @@ export default function App() {
 		);
 	};
 
+	if (!isAuthenticated) {
+		return (
+			<View style={styles.loginContainer}>
+				<View style={styles.loginCard}>
+					<Text style={styles.loginTitle}>🔒 Yeshiva Van Tracker</Text>
+					<Text style={styles.loginSubtitle}>
+						Enter password to access the monitoring dashboard
+					</Text>
+					<View style={styles.divider} />
+
+					<TextInput
+						style={styles.input}
+						placeholder="Enter security password"
+						placeholderTextColor="#8E8E93"
+						secureTextEntry
+						value={passwordInput}
+						onChangeText={setPasswordInput}
+						onSubmitEditing={handleLoginSubmit}
+					/>
+
+					<TouchableOpacity
+						style={styles.button}
+						onPress={handleLoginSubmit}
+						disabled={loginLoading}
+					>
+						{loginLoading ? (
+							<ActivityIndicator color="#fff" />
+						) : (
+							<Text style={styles.buttonText}>Unlock Dashboard</Text>
+						)}
+					</TouchableOpacity>
+
+					{loginError ? (
+						<Text style={styles.errorText}>{loginError}</Text>
+					) : null}
+				</View>
+			</View>
+		);
+	}
+
 	return (
 		<ScrollView contentContainerStyle={styles.scrollContainer}>
 			<View style={styles.layoutWrapper}>
-				{/* 🚨 TRIAGE WARNING BANNER: Spans across layout whenever anomalies hit */}
+				{/* TRIAGE WARNING BANNER: Spans across layout whenever anomalies hit */}
 				<TriageQueueScreen
 					unassignedItems={unassignedExpenses}
 					drivers={drivers}
@@ -300,7 +366,7 @@ export default function App() {
 							style={styles.webDatePicker}
 						/>
 
-						{/* 💡 THE INTERACTIVE SUGGESTION DIALOG PROMPT */}
+						{/* THE INTERACTIVE SUGGESTION DIALOG PROMPT */}
 						{suggestedTrip && (
 							<View style={styles.suggestionAlertBox}>
 								<Text style={styles.suggestionTitleText}>

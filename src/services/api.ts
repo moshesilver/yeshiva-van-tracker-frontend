@@ -95,5 +95,15 @@ export const api = {
 			console.error('Failed to pull unassigned triage grid:', error);
 			return { count: 0, expenses: [] };
 		}
+	},
+
+	// Simple password-based authentication for access
+	login: async (password: string) => {
+		const response = await fetch('http://localhost:5000/api/login', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ password })
+		});
+		return await response.json();
 	}
 };
