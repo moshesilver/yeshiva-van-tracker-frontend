@@ -156,11 +156,10 @@ export default function App() {
 	) => {
 		try {
 			// Re-route item by posting direct override params onto existing log
-			await fetch(`http://localhost:5000/api/expenses`, {
-				method: 'POST',
+			await fetch(`http://localhost:5000/api/expenses/${expenseId}`, {
+				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
-					id: expenseId, // Reuses existing schema key to drop/re-add or update fields nicely
 					manualDriverName: targetDriverName
 				})
 			});
