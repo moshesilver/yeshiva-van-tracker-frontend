@@ -1,6 +1,7 @@
-import { styles } from './TriageQueueScreen.styles';
-
+import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import DriverSelectDropdown from '../components/DriverSelectDropdown';
+import { styles } from './TriageQueueScreen.styles';
 
 interface TriageExpense {
 	id: string;
@@ -26,7 +27,14 @@ export default function TriageQueueScreen({
 	drivers,
 	onAssignItem
 }: TriageQueueScreenProps) {
+	// Keep track of the typing input text state independently for each triage row item
+	const [rowInputs, setRowInputs] = useState<Record<string, string>>({});
+
 	if (unassignedItems.length === 0) return null;
+
+	const handleRowTextChange = (itemId: string, text: string) => {
+		setRowInputs(prev => ({ ...prev, [itemId]: text }));
+	};
 
 	return (
 		<View style={styles.triageCard}>
@@ -39,47 +47,81 @@ export default function TriageQueueScreen({
 				</View>
 			</View>
 			<Text style={styles.subtext}>
-				These expenses couldn't be matched automatically to a trip. Assign a
-				driver manually to link them.
+				These expenses couldn't be matched automatically. Assign a driver via
+				the lookup tool to process them.
 			</Text>
 			<View style={styles.divider} />
 
 			<ScrollView nestedScrollEnabled style={styles.listContainer}>
-				{unassignedItems.map(item => (
-					<View key={item.id} style={styles.triageItemRow}>
-						<View style={styles.metaDataBlock}>
-							<Text style={styles.itemMainText}>
-								{item.type} —{' '}
-								<Text style={styles.price}>${item.amount.toFixed(2)}</Text>
-							</Text>
-							<Text style={styles.itemTimeText}>
-								{new Date(item.dateTime).toLocaleString()}
-							</Text>
-							{item.notes && (
-								<Text style={styles.itemNoteText}>“{item.notes}”</Text>
-							)}
-						</View>
+				{unassignedItems.map(item => {
+					const currentInputValue = rowInputs[item.id] || '';
 
-						{/* Quick Picker Column */}
-						<View style={styles.actionColumn}>
-							<Text style={styles.assignLabel}>Assign To:</Text>
-							<View style={styles.driverButtonGrid}>
-								{drivers
-									.filter(d => d.name !== 'Unassigned Fleet Driver')
-									.slice(0, 3) // Shows the first 3 drivers cleanly as click pills
-									.map(driver => (
+					return (
+						<View
+							key={item.id}
+							style={[styles.triageItemRow, { zIndex: 9999 }]}
+						>
+							<View style={styles.metaDataBlock}>
+								<Text style={styles.itemMainText}>
+									{item.type} —{' '}
+									<Text style={styles.price}>${item.amount.toFixed(2)}</Text>
+								</Text>
+								<Text style={styles.itemTimeText}>
+									{new Date(item.dateTime).toLocaleString()}
+								</Text>
+								{item.notes && (
+									<Text style={styles.itemNoteText}>“{item.notes}”</Text>
+								)}
+							</View>
+
+							{/* Clean, scalable Dropdown Selection Block */}
+							<View style={[styles.actionColumn, { minWidth: 220 }]}>
+								<Text style={styles.assignLabel}>Assign Driver:</Text>
+								<View
+									style={{
+										width: '100%',
+										flexDirection: 'row',
+										gap: 6,
+										alignItems: 'flex-start'
+									}}
+								>
+									<View style={{ flex: 1 }}>
+										<DriverSelectDropdown
+											value={currentInputValue}
+											onChangeText={txt => handleRowTextChange(item.id, txt)}
+											suggestions={drivers}
+											placeholder="Select driver..."
+										/>
+									</View>
+									{currentInputValue.trim().length > 0 && (
 										<TouchableOpacity
-											key={driver.id}
-											style={styles.pillBtn}
-											onPress={() => onAssignItem(item.id, driver.name)}
+											style={[
+												styles.pillBtn,
+												{
+													backgroundColor: '#34C759',
+													borderColor: '#34C759',
+													height: 44,
+													justifyContent: 'center'
+												}
+											]}
+											onPress={() => {
+												onAssignItem(item.id, currentInputValue.trim());
+												// Clear local tracker row entry value out after execution runs
+												handleRowTextChange(item.id, '');
+											}}
 										>
-											<Text style={styles.pillBtnText}>+ {driver.name}</Text>
+											<Text
+												style={[styles.pillBtnText, { fontWeight: 'bold' }]}
+											>
+												Save
+											</Text>
 										</TouchableOpacity>
-									))}
+									)}
+								</View>
 							</View>
 						</View>
-					</View>
-				))}
+					);
+				})}
 			</ScrollView>
 		</View>
 	);

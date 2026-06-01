@@ -11,6 +11,7 @@ import {
 import { api, DriverMetrics } from './src/services/api';
 import TriageQueueScreen from './src/screens/TriageQueueScreen';
 import { styles } from './App.styles';
+import DriverSelectDropdown from './src/components/DriverSelectDropdown';
 
 interface Trip {
 	id: string;
@@ -261,29 +262,12 @@ export default function App() {
 						<View style={styles.divider} />
 
 						<Text style={styles.inlineLabel}>Select or Type Driver Name:</Text>
-						<TextInput
-							style={styles.input}
-							placeholder="Type driver name..."
-							placeholderTextColor="#8E8E93"
+						<DriverSelectDropdown
 							value={driverName}
 							onChangeText={setDriverName}
+							suggestions={drivers}
+							placeholder="Type driver name..."
 						/>
-
-						{drivers.length > 0 && (
-							<View style={styles.tagWrapper}>
-								{drivers
-									.filter(d => d.name !== 'Unassigned Fleet Driver')
-									.map(d => (
-										<TouchableOpacity
-											key={d.id}
-											style={styles.tag}
-											onPress={() => setDriverName(d.name)}
-										>
-											<Text style={styles.tagText}>+ {d.name}</Text>
-										</TouchableOpacity>
-									))}
-							</View>
-						)}
 
 						<Text style={styles.inlineLabel}>Checkout Date & Time:</Text>
 						<TextInput
@@ -390,32 +374,12 @@ export default function App() {
 						<Text style={styles.inlineLabel}>
 							Assign Driver (Leave blank to flag as unassigned):
 						</Text>
-						<TextInput
-							style={styles.input}
-							placeholder="Driver assignment override..."
-							placeholderTextColor="#8E8E93"
+						<DriverSelectDropdown
 							value={manualDriver}
 							onChangeText={setManualDriver}
+							suggestions={drivers}
+							placeholder="Driver assignment override..."
 						/>
-
-						{drivers.length > 0 && (
-							<View style={styles.tagWrapper}>
-								{drivers
-									.filter(d => d.name !== 'Unassigned Fleet Driver')
-									.map(d => (
-										<TouchableOpacity
-											key={d.id}
-											style={[
-												styles.tag,
-												manualDriver === d.name && styles.tagSelected
-											]}
-											onPress={() => setManualDriver(d.name)}
-										>
-											<Text style={styles.tagText}>{d.name}</Text>
-										</TouchableOpacity>
-									))}
-							</View>
-						)}
 
 						<TextInput
 							style={[styles.input, styles.textArea, styles.extraSpacingTop]}
