@@ -1,7 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-	scrollContainer: { flexGrow: 1, backgroundColor: '#1C1C1E', padding: 20 },
+	scrollContainer: {
+		flexGrow: 1,
+		backgroundColor: '#1C1C1E',
+		padding: 20
+	},
 	layoutWrapper: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
@@ -11,9 +15,20 @@ export const styles = StyleSheet.create({
 		maxWidth: 1100,
 		alignSelf: 'center'
 	},
-	column: { flex: 1, minWidth: 340, maxWidth: 520, gap: 20 },
-	card: { backgroundColor: '#2C2C2E', borderRadius: 12, padding: 22 },
-	flexibleHeight: { flex: 1 },
+	column: {
+		flex: 1,
+		minWidth: 340,
+		maxWidth: 520,
+		gap: 20
+	},
+	card: {
+		backgroundColor: '#2C2C2E',
+		borderRadius: 12,
+		padding: 22
+	},
+	flexibleHeight: {
+		flex: 1
+	},
 	title: {
 		fontSize: 22,
 		fontWeight: 'bold',
@@ -26,8 +41,16 @@ export const styles = StyleSheet.create({
 		color: '#FFFFFF',
 		marginBottom: 4
 	},
-	statusText: { color: '#AEAEB2', fontSize: 13, marginBottom: 10 },
-	divider: { height: 1, backgroundColor: '#3A3A3C', marginBottom: 16 },
+	statusText: {
+		color: '#AEAEB2',
+		fontSize: 13,
+		marginBottom: 10
+	},
+	divider: {
+		height: 1,
+		backgroundColor: '#3A3A3C',
+		marginBottom: 16
+	},
 	inlineLabel: {
 		color: '#AEAEB2',
 		fontSize: 13,
@@ -55,11 +78,26 @@ export const styles = StyleSheet.create({
 		paddingVertical: 6,
 		paddingHorizontal: 12
 	},
-	tagSelected: { backgroundColor: '#0A84FF' },
-	tagText: { color: '#FFFFFF', fontSize: 13, fontWeight: '500' },
-	textArea: { height: 65, textAlignVertical: 'top' },
-	extraSpacingTop: { marginTop: 8 },
-	typeRow: { flexDirection: 'row', gap: 10, marginBottom: 14 },
+	tagSelected: {
+		backgroundColor: '#0A84FF'
+	},
+	tagText: {
+		color: '#FFFFFF',
+		fontSize: 13,
+		fontWeight: '500'
+	},
+	textArea: {
+		height: 65,
+		textAlignVertical: 'top'
+	},
+	extraSpacingTop: {
+		marginTop: 8
+	},
+	typeRow: {
+		flexDirection: 'row',
+		gap: 10,
+		marginBottom: 14
+	},
 	typeButton: {
 		flex: 1,
 		backgroundColor: '#3A3A3C',
@@ -67,33 +105,60 @@ export const styles = StyleSheet.create({
 		padding: 10,
 		alignItems: 'center'
 	},
-	typeButtonActive: { backgroundColor: '#0A84FF' },
-	typeButtonText: { color: '#AEAEB2', fontWeight: '600' },
-	typeButtonTextActive: { color: '#FFFFFF' },
+	typeButtonActive: {
+		backgroundColor: '#0A84FF'
+	},
+	typeButtonText: {
+		color: '#AEAEB2',
+		fontWeight: '600'
+	},
+	typeButtonTextActive: {
+		color: '#FFFFFF'
+	},
 	button: {
 		backgroundColor: '#0A84FF',
 		borderRadius: 8,
 		padding: 12,
 		alignItems: 'center'
 	},
-	successButton: { backgroundColor: '#34C759' },
-	buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: 'bold' },
+	successButton: {
+		backgroundColor: '#34C759'
+	},
+	buttonText: {
+		color: '#FFFFFF',
+		fontSize: 16,
+		fontWeight: 'bold'
+	},
 	messageText: {
 		color: '#FFD60A',
 		fontSize: 14,
 		textAlign: 'center',
 		marginTop: 12
 	},
-	emptyText: { color: '#8E8E93', textAlign: 'center', marginTop: 30 },
+	emptyText: {
+		color: '#8E8E93',
+		textAlign: 'center',
+		marginTop: 30
+	},
 	tripItem: {
 		backgroundColor: '#3A3A3C',
 		borderRadius: 8,
 		padding: 12,
 		marginBottom: 10
 	},
-	tripHeader: { flexDirection: 'row', justifyContent: 'space-between' },
-	driverText: { color: '#FFFFFF', fontSize: 16, fontWeight: 'bold' },
-	dateText: { color: '#AEAEB2', fontSize: 12 },
+	tripHeader: {
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	},
+	driverText: {
+		color: '#FFFFFF',
+		fontSize: 16,
+		fontWeight: 'bold'
+	},
+	dateText: {
+		color: '#AEAEB2',
+		fontSize: 12
+	},
 	noteText: {
 		color: '#E5E5EA',
 		fontSize: 13,
@@ -114,8 +179,15 @@ export const styles = StyleSheet.create({
 		fontSize: 14,
 		marginBottom: 2
 	},
-	suggestionBodyText: { color: '#E5E5EA', fontSize: 13, marginBottom: 8 },
-	bold: { fontWeight: 'bold', color: '#FFFFFF' },
+	suggestionBodyText: {
+		color: '#E5E5EA',
+		fontSize: 13,
+		marginBottom: 8
+	},
+	bold: {
+		fontWeight: 'bold',
+		color: '#FFFFFF'
+	},
 	acceptSuggestionBtn: {
 		backgroundColor: '#0A84FF',
 		borderRadius: 6,
@@ -124,7 +196,11 @@ export const styles = StyleSheet.create({
 		alignItems: 'center',
 		alignSelf: 'flex-start'
 	},
-	acceptBtnText: { color: '#FFFFFF', fontSize: 13, fontWeight: '600' },
+	acceptBtnText: {
+		color: '#FFFFFF',
+		fontSize: 13,
+		fontWeight: '600'
+	},
 	loginContainer: {
 		flex: 1,
 		backgroundColor: '#1C1C1E',
